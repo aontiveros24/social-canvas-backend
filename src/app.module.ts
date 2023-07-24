@@ -29,7 +29,7 @@ import { SocialNetworkChatEntity } from './social_network_chats/social_network_c
       ],
       autoLoadEntities: true,
       synchronize: true,
-      dropSchema: true,
+      // dropSchema: true,
     }),
     UsersModule,
     ProvidersModule,
