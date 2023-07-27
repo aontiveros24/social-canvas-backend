@@ -1,8 +1,10 @@
+import { Message } from "src/messages/message.entity";
 import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
   CreateDateColumn,
+  OneToMany,
 } from 'typeorm';
 
 @Entity('user')
@@ -48,4 +50,16 @@ export class UserEntity {
 
   @Column({ name: 'is_active', comment: 'Bandera de activo', default: true })
   isActive: boolean;
+
+  @Column({ length: 100, comment: 'Imagen de perfil', nullable: true })
+  image: string;
+
+  @Column('jsonb')
+  roomId: { [key: number]: string };
+
+  @OneToMany(() => Message, message => message.sender)
+  sentMessages: Message[];
+
+  @OneToMany(() => Message, message => message.receiver)
+  receivedMessages: Message[];
 }

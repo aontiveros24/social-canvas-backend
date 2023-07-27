@@ -43,6 +43,10 @@ export class UsersService {
     return this.userRepository.find();
   }
 
+  async getUserByPhone(phone: string): Promise<UserEntity | undefined> {
+    return this.userRepository.findOneBy({ phone });
+  }
+
   catchQueryError(err) {
     switch (err.name) {
       case 'QueryFailedError':

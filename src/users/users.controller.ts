@@ -35,4 +35,13 @@ export class UsersController {
   findAll() {
     return this.userService.getUsers();
   }
+
+  @Get(':phone')
+  async getUserByPhone(@Param('phone') phone: string) {
+    const user = await this.userService.getUserByPhone(phone);
+    if (!user) {
+      throw new HttpException('Usuario no encontrado', HttpStatus.NOT_FOUND);
+    }
+    return user;
+  }
 }
