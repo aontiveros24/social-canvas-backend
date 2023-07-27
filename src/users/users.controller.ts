@@ -27,8 +27,13 @@ export class UsersController {
   }
 
   @Post('login')
-  loginUser(@Body() loginUser: LoginUserDto) {
-    return this.userService.loginUser(loginUser);
+  async loginUser(@Body() loginUser: LoginUserDto) {
+    try {
+      const user = await this.userService.loginUser(loginUser);
+      return user; // Devuelve el usuario autenticado completo en un objeto.
+    } catch (error) {
+      throw new HttpException(error.message, error.status);
+    }
   }
 
   @Get()
