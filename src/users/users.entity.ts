@@ -1,4 +1,4 @@
-import { Message } from "src/messages/message.entity";
+import { Message } from 'src/messages/message.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -54,12 +54,12 @@ export class UserEntity {
   @Column({ length: 100, comment: 'Imagen de perfil', nullable: true })
   image: string;
 
-  @Column('jsonb')
+  @Column('jsonb', { nullable: true })
   roomId: { [key: number]: string };
 
-  @OneToMany(() => Message, message => message.sender)
+  @OneToMany(() => Message, (message) => message.sender)
   sentMessages: Message[];
 
-  @OneToMany(() => Message, message => message.receiver)
+  @OneToMany(() => Message, (message) => message.receiver)
   receivedMessages: Message[];
 }

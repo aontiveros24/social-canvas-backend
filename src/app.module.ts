@@ -18,7 +18,8 @@ import { Message } from './messages/message.entity';
       host: 'localhost',
       port: 5432,
       username: 'postgres',
-      password: 'buser99',
+      password: 'postgres',
+      // password: 'buser99',
       database: 'DB_SOCIAL_CANVAS',
       entities: [
         UserEntity,
