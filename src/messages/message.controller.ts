@@ -13,7 +13,9 @@ export class MessageController {
   }
 
   @Get('messages/:userPhone')
-  async getMessages(@Param('userPhone') userPhone: string): Promise<MessageDto[]> {
+  async getMessages(
+    @Param('userPhone') userPhone: string,
+  ): Promise<MessageDto[]> {
     return this.chatService.getMessages(userPhone);
   }
 }

@@ -51,7 +51,7 @@ export class UserEntity {
   @Column({ name: 'is_active', comment: 'Bandera de activo', default: true })
   isActive: boolean;
 
-  @Column({ length: 100, comment: 'Imagen de perfil', nullable: true })
+  @Column({ length: 300, comment: 'Imagen de perfil', nullable: true })
   image: string;
 
   @Column('jsonb', { nullable: true })

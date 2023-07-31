@@ -24,6 +24,28 @@ export class UsersService {
       .catch((err) => this.catchQueryError(err));
   }
 
+  async getUserById(id) {
+    return this.userRepository.findOneBy({ id: id });
+  }
+
+  async updateUser(id, data: CreateUserDto) {
+    const user = await this.getUserById(id);
+
+    if (!user)
+      return new HttpException('No existe el usuario', HttpStatus.NOT_FOUND);
+
+    await this.userRepository
+      .update(id, { ...data })
+      .catch((err) => this.catchQueryError(err));
+
+    const userUpdated = await this.getUserById(id);
+
+    return {
+      message: 'Usuario actualizado',
+      userUpdated,
+    };
+  }
+
   async loginUser(LoginUser: LoginUserDto) {
     const user = await this.userRepository.findOneBy({
       email: LoginUser.email,

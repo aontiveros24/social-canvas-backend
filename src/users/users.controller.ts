@@ -26,6 +26,14 @@ export class UsersController {
     });
   }
 
+  @Put('update/:id')
+  @UseFilters(new HttpExceptionFilter())
+  updateUser(@Param('id') id: number, @Body() newUser: CreateUserDto) {
+    return this.userService.updateUser(id, newUser).catch((err) => {
+      throw new HttpException(err.message, HttpStatus.BAD_REQUEST);
+    });
+  }
+
   @Post('login')
   async loginUser(@Body() loginUser: LoginUserDto) {
     try {

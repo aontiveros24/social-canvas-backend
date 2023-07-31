@@ -19,7 +19,9 @@ export class MessageService {
     const { content, senderPhone, receiverPhone } = createMessageDto;
 
     const sender = await this.userRepository.findOneBy({ phone: senderPhone });
-    const receiver = await this.userRepository.findOneBy({ phone: receiverPhone });
+    const receiver = await this.userRepository.findOneBy({
+      phone: receiverPhone,
+    });
 
     if (!sender || !receiver) {
       throw new Error('Sender or receiver not found');
