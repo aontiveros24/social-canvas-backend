@@ -34,18 +34,25 @@ export class MessageService {
     await this.messageRepository.save(newMessage);
   }
 
-  async getMessages(userPhone: string): Promise<MessageDto[]> {
-    const user = await this.userRepository.findOneBy({ phone: userPhone });
-
-    if (!user) {
-      throw new Error('User not found');
+  async getMessages(senderPhone: string, receiverPhone: string): Promise<MessageDto[]> {
+    const sender = await this.userRepository.findOneBy({ phone: senderPhone });
+    const receiver = await this.userRepository.findOneBy({ phone: receiverPhone });
+  
+    if (!sender || !receiver) {
+      throw new Error('Sender or receiver not found');
     }
-
+  
     const messages = await this.messageRepository.find({
-      where: [{ sender: user }, { receiver: user }],
+      where: [
+        { sender: sender, receiver: receiver }, // Messages sent from sender to receiver
+        { sender: receiver, receiver: sender }, // Messages sent from receiver to sender
+      ],
       relations: ['sender'],
+      order: {
+        id: 'ASC'
+      }
     });
-
+  
     return messages.map((message) => ({
       content: message.content,
       sender: message.sender.firstName,
