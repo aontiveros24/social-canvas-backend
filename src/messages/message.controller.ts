@@ -12,10 +12,11 @@ export class MessageController {
     await this.chatService.sendMessage(createMessageDto);
   }
 
-  @Get('messages/:userPhone')
+  @Get('messages/:senderPhone/:receiverPhone')
   async getMessages(
-    @Param('userPhone') userPhone: string,
+    @Param('senderPhone') senderPhone: string,
+    @Param('receiverPhone') receiverPhone: string,
   ): Promise<MessageDto[]> {
-    return this.chatService.getMessages(userPhone);
+    return this.chatService.getMessages(senderPhone, receiverPhone);
   }
 }
