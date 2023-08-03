@@ -18,18 +18,24 @@ import { HttpExceptionFilter } from '../http-exception.filter';
 export class UsersController {
   constructor(private userService: UsersService) {}
 
+  @Get()
+  findAll() {
+    return this.userService.getUsers();
+  }
+
+  @Get(':phone')
+  async getUserByPhone(@Param('phone') phone: string) {
+    const user = await this.userService.getUserByPhone(phone);
+    if (!user) {
+      throw new HttpException('Usuario no encontrado', HttpStatus.NOT_FOUND);
+    }
+    return user;
+  }
+
   @Post('create')
   @UseFilters(new HttpExceptionFilter())
   createUser(@Body() newUser: CreateUserDto) {
     return this.userService.createUser(newUser).catch((err) => {
-      throw new HttpException(err.message, HttpStatus.BAD_REQUEST);
-    });
-  }
-
-  @Put('update/:id')
-  @UseFilters(new HttpExceptionFilter())
-  updateUser(@Param('id') id: number, @Body() newUser: CreateUserDto) {
-    return this.userService.updateUser(id, newUser).catch((err) => {
       throw new HttpException(err.message, HttpStatus.BAD_REQUEST);
     });
   }
@@ -44,17 +50,19 @@ export class UsersController {
     }
   }
 
-  @Get()
-  findAll() {
-    return this.userService.getUsers();
+  @Put('update/:id')
+  @UseFilters(new HttpExceptionFilter())
+  updateUser(@Param('id') id: number, @Body() newUser: CreateUserDto) {
+    return this.userService.updateUser(id, newUser).catch((err) => {
+      throw new HttpException(err.message, HttpStatus.BAD_REQUEST);
+    });
   }
 
-  @Get(':phone')
-  async getUserByPhone(@Param('phone') phone: string) {
-    const user = await this.userService.getUserByPhone(phone);
-    if (!user) {
-      throw new HttpException('Usuario no encontrado', HttpStatus.NOT_FOUND);
-    }
-    return user;
+  @Delete('delete/:id')
+  @UseFilters(new HttpExceptionFilter())
+  deleteUser(@Param('id') id: number) {
+    return this.userService.deleteUser(id).catch((err) => {
+      throw new HttpException(err.message, HttpStatus.BAD_REQUEST);
+    });
   }
 }
